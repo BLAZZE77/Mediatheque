@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,14 +16,16 @@
 
     <a href="mediatheque.php">Retour a l'acceuil</a>
      <?php 
-        $read = $bdd -> prepare('SELECT  titre,realisateur,genre,duree FROM film');
+        $read = $bdd -> prepare('SELECT  id,titre,realisateur,genre,duree FROM film');
         $read -> execute(array());
+
 
         while ($data = $read->fetch()){
             echo '<p>Film  :'.$data['titre'].'</p>';
             echo '<p>Realisateur :'.$data['realisateur'].'</p>';
             echo '<p>genre:'.$data['genre'].'</p>';
             echo '<p>duree  :'.$data['duree'].'</p>';
+            echo '<a href="film.php?id=' . $data['id'] . '">En savoir +</a>';
         }
     ?>
 

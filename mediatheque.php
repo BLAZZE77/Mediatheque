@@ -10,7 +10,7 @@
     <title>Document</title>
 </head>
 <body>
-    
+        
     <?php 
      if (isset($_GET['logout']) && $_GET['logout'] === 'logout') {
         unset($_SESSION['user']);
@@ -24,7 +24,6 @@
     <input type="submit" value ="logout" name = "logout">
     </form>
     <?php     
-    
     }else{
         ?>
         <a href="login.php">Connexion</a>
