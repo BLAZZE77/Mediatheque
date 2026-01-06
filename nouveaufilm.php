@@ -12,32 +12,31 @@
 </head>
 <body>
     
-        <form action="nouveaufilm.php"  method="post">
+        <form action="nouveaufilm.php"  method="post" >
             <p>Titre : </p>
-            <input type="text" name="titre">
+            <input type="text" name="titre" required>
             <p>realisateur : </p>
-            <input type="text" name="realisateur">
+            <input type="text" name="realisateur" required>
             <p>genre : </p>
-            <input type="text" name="genre">
+            <input type="text" name="genre" required>
             <p>duree : </p>
-            <input type="text" name="duree">
-            <button>envoyer</button>
+            <input type="text" name="duree"required >
+            <input type="submit" value ="submit" name = "submit">
         </form>
 
     <?php
-        $titre = $_POST['titre'];
-        $realisateur = $_POST['realisateur'];
+        if (isset($_POST['submit'])){ 
+            $titre = $_POST['titre'];
+            $realisateur = $_POST['realisateur'];
+            $genre = $_POST['genre'];
+            $duree = $_POST['duree'];
+            $add = $bdd -> prepare('INSERT INTO film(titre,realisateur,genre,duree)
+                                                        VALUES(?,?,?,?)');
+            $data = $add->execute(array($titre,$realisateur,$genre,$duree));
+        }
         
-        $genre = $_POST['genre'];
-        $duree = $_POST['duree'];
-        $prenom = $_POST['prenom'];
-        $nom = $_POST['nom'];
-
-        $add = $bdd -> prepare('INSERT INTO film(titre,realisateur,genre,duree)
-                                            VALUES(?,?,?,?)');
-        $data = $add->execute(array($titre,$realisateur,$genre,$duree));
     ?>
-
+    <a href="mediatheque.php">Retournez a L'accueil</a>
 
 </body>
 </html>

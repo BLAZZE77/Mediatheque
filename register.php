@@ -9,8 +9,8 @@
      <?php 
         $bdd = new PDO('mysql:host=localhost;dbname=mediatheque;charset=utf8','root','');
     ?>
-
-    <h1>Ajouter un utilisateur : </h1>
+    
+    <h1>Crée un nouveau compte</h1>
 
     <form action="register.php" method="post">
      <p>Pseudo :</p>
@@ -36,9 +36,13 @@
                 $add = $bdd -> prepare('INSERT INTO user(surname,mdp,prenom,nom)
                                         VALUES(?,?,?,?)'); 
          $data = $add->execute(array($surname,$mdpscrpt,$prenom,$nom));
+         echo "<p>Enregistrement réussi</p>";
     }
-     
     ?>
+    <p></p>
+    <p></p>
+    <a href="mediatheque.php">Retour à l’accueil</a>
+    <a href="login.php">Vous avez déja un compte ? </a>
 
 </body>
 </html>

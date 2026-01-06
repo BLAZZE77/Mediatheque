@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,12 +10,34 @@
     <title>Document</title>
 </head>
 <body>
+    
     <?php 
+     if (isset($_GET['logout']) && $_GET['logout'] === 'logout') {
+        unset($_SESSION['user']);
+        echo "Vous êtes maintenant déconnecté";
+    }
     $bdd = new PDO('mysql:host=localhost;dbname=mediatheque;charset=utf8','root','');
+       if (isset($_SESSION['user'])) {
+        echo "<p>Bienvenue, " . htmlspecialchars($_SESSION['user']['prenom']) . " !</p>";
+    ?> 
+    <form action="mediatheque.php?action=logout" method="get">
+    <input type="submit" value ="logout" name = "logout">
+    </form>
+    <?php     
+    
+    }else{
+        ?>
+        <a href="login.php">Connexion</a>
+        <a href="register.php">Nouveau membre ? </a>
+    <?php   
+    }
     ?>
 
-    <a href="register.php">Nouveau membre ? </a>
-    <h1>Derniers films : </h1>
+
+
+    
+   
+    <h1>Derniers films ajoutés : </h1>
    
     <?php 
         $read = $bdd -> prepare('SELECT  titre,realisateur,genre,duree FROM film ORDER BY id DESC LIMIT 3 ');
@@ -25,32 +51,7 @@
         }
     ?>
 
-    <a href="allfilm.php">Voir + de films</a>
-
-    <form action="mediatheque.php" method="post">
-        <input type="text" name="nom">
-        <input type="text" name="prenom">
-        <button>envoyer</button>
-    </form>
-
-    <h2>Ajouter un utilisateur : </h2>
-
-    <form action="mediatheque.php" method="post">
-     <p>Nom : </p>
-    <input type="text" name="prenom">
-     <p>Prenom : </p>
-    <input type="text" name="nom">
-    <button>envoyer</button>
-    </form>
-
-    <?php
-        $prenom = $_POST['prenom'];
-        $nom = $_POST['nom'];
-        $add = $bdd -> prepare('INSERT INTO user(prenom,nom)
-                                            VALUES(?,?)'); 
-        $data = $add->execute(array($prenom,$nom));
-    ?>
-
+    <a href="allfilm.php">Voir + de films</a>    
     <a  href="nouveaufilm.php">Ajouter une fiche de film </a>
     
 </body>
