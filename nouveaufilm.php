@@ -27,8 +27,11 @@
     <?php
         $titre = $_POST['titre'];
         $realisateur = $_POST['realisateur'];
+        
         $genre = $_POST['genre'];
         $duree = $_POST['duree'];
+        $prenom = $_POST['prenom'];
+        $nom = $_POST['nom'];
 
         $add = $bdd -> prepare('INSERT INTO film(titre,realisateur,genre,duree)
                                             VALUES(?,?,?,?)');

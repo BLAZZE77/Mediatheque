@@ -10,10 +10,11 @@
     $bdd = new PDO('mysql:host=localhost;dbname=mediatheque;charset=utf8','root','');
     ?>
 
+    <a href="register.php">Nouveau membre ? </a>
     <h1>Derniers films : </h1>
    
     <?php 
-        $read = $bdd -> prepare('SELECT  titre,realisateur,genre,duree FROM film');
+        $read = $bdd -> prepare('SELECT  titre,realisateur,genre,duree FROM film ORDER BY id DESC LIMIT 3 ');
         $read -> execute(array());
 
         while ($data = $read->fetch()){
@@ -23,6 +24,8 @@
             echo '<p>duree  :'.$data['duree'].'</p>';
         }
     ?>
+
+    <a href="allfilm.php">Voir + de films</a>
 
     <form action="mediatheque.php" method="post">
         <input type="text" name="nom">
