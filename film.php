@@ -32,18 +32,50 @@
 
     <?php
         $filmid = $_GET['id'];
-        $read = $bdd -> prepare('SELECT synopsis,titre FROM film WHERE id = ?');
-        $read->execute([$filmid]); 
-        $data = $read->fetch();
-        if (!empty($data['synopsis'])){
-            echo '<p> Nom du film : ' . htmlspecialchars($data['titre']) . '</p>';
-            echo '<p> synopsis : ' . htmlspecialchars($data['synopsis']) . '</p>';
+        $readfilm = $bdd -> prepare('SELECT synopsis,titre FROM film WHERE id = ?');
+        $readfilm->execute([$filmid]); 
+        $datafilm = $readfilm->fetch();
+       
+        if (!empty($datafilm['synopsis'])){
+            echo '<p> Nom du film : ' . htmlspecialchars($datafilm['titre']).'</p>';
+            echo '<p> synopsis : '. htmlspecialchars($datafilm['synopsis']).'</p>';
         }else {
-            echo '<p> Pas de synopsis </p>';
+            echo '<p> Nom du film : ' . htmlspecialchars($datafilm['titre']).'</p>';
+            echo '<p>Pas de synopsis</p>';
         }
     ?>
-
+    <a href="allfilm.php">Retour au films</a>
     <?php
+            if (isset($_SESSION['user'])){?>
+                <form action="film.php?id=<?= $filmid ?>"  method="post" >
+                    <p>Ajouter un commentaire : </p>
+                    <textarea name="content" id="" rows="5" cols="33">
+                    </textarea>
+                    <input type="submit" value ="sendcomment" name = "sendcomment">
+                </form>
+            <?php
+                if (isset($_POST['sendcomment'])) {
+                    $content = $_POST['content'];
+                    $user_id = $_SESSION['user']['id']; 
+                    $addcomment = $bdd->prepare('
+                        INSERT INTO commentaire (user_id, film_id, content)
+                        VALUES (?, ?, ?)
+                    ');
+                     $addcomment->execute([$user_id, $filmid, $content]);
+}
+            }
+
+
+        $readcomment = $bdd -> prepare('SELECT c.content, u.surname, u.prenom
+                                                FROM commentaire c
+                                                JOIN `user` u ON c.user_id = u.id
+                                                WHERE c.film_id = ?');
+        $readcomment->execute([$filmid]); 
+
+        while ($datacomment = $readcomment->fetch()){
+            echo '<p>'.$datacomment['surname'].'</p>';
+            echo '<p>'.$datacomment['content'].'</p>';
+        }
        ?>
 
 

@@ -38,7 +38,8 @@
                     $_SESSION['user'] = [
                     'surname' => $user['surname'],
                     'prenom'  => $user['prenom'],
-                    'nom' => $user['nom']
+                    'nom' => $user['nom'],
+                    'id' => $user['id']
                 ];    
                     if (isset($_SESSION['user'])) {
                         header("Location: mediatheque.php");
