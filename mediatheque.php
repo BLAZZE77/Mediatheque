@@ -1,5 +1,6 @@
 <?php
     session_start();
+     $bdd = new PDO('mysql:host=localhost;dbname=mediatheque;charset=utf8','root','');
 ?>
 
 <!DOCTYPE html>
@@ -10,32 +11,10 @@
     <title>Document</title>
 </head>
 <body>
-        
     <?php 
-     if (isset($_GET['logout']) && $_GET['logout'] === 'logout') {
-        unset($_SESSION['user']);
-        echo "Vous êtes maintenant déconnecté";
-    }
-    $bdd = new PDO('mysql:host=localhost;dbname=mediatheque;charset=utf8','root','');
-       if (isset($_SESSION['user'])) {
-        echo "<p>Bienvenue, " . htmlspecialchars($_SESSION['user']['prenom']) . " !</p>";
-    ?> 
-    <form action="mediatheque.php?action=logout" method="get">
-    <input type="submit" value ="logout" name = "logout">
-    </form>
-    <?php     
-    }else{
-        ?>
-        <a href="login.php">Connexion</a>
-        <a href="register.php">Nouveau membre ? </a>
-    <?php   
-    }
+        include 'auth.php';
     ?>
 
-
-
-    
-   
     <h1>Derniers films ajoutés : </h1>
    
     <?php 
@@ -49,7 +28,7 @@
             echo '<p>duree  :'.$data['duree'].'</p>';
         }
     ?>
-
+    
     <a href="allfilm.php">Voir + de films</a>    
     <a  href="nouveaufilm.php">Ajouter une fiche de film </a>
     

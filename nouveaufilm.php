@@ -1,4 +1,5 @@
-<?php 
+<?php
+    session_start();
     $bdd = new PDO('mysql:host=localhost;dbname=mediatheque;charset=utf8','root','');
 ?>
 
@@ -11,7 +12,9 @@
     <title>Document</title>
 </head>
 <body>
-    
+
+        
+
         <form action="nouveaufilm.php"  method="post" >
             <p>Titre : </p>
             <input type="text" name="titre" required>
@@ -31,7 +34,7 @@
             $genre = $_POST['genre'];
             $duree = $_POST['duree'];
             $add = $bdd -> prepare('INSERT INTO film(titre,realisateur,genre,duree)
-                                                        VALUES(?,?,?,?)');
+                                                            VALUES(?,?,?,?)');
             $data = $add->execute(array($titre,$realisateur,$genre,$duree));
         }
         

@@ -46,12 +46,9 @@
                     exit; 
                     }
                 }else{
-                    echo "<p>Mot de passe ou nom d'utilisateur incorrect<p>";
+                    echo "<p>Mot de passe ou nom d'utilisateur incorrect<p>"; 
                 }
         }
     ?>
-
-
-
 </body>
 </html>

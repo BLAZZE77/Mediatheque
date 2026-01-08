@@ -1,5 +1,6 @@
 <?php
     session_start();
+    $bdd = new PDO('mysql:host=localhost;dbname=mediatheque;charset=utf8','root','');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,8 +12,9 @@
 <body>
 
     <?php 
-    $bdd = new PDO('mysql:host=localhost;dbname=mediatheque;charset=utf8','root','');
+        include 'auth.php';
     ?>
+
 
     <a href="mediatheque.php">Retour a l'acceuil</a>
      <?php 
@@ -26,7 +28,9 @@
             echo '<p>genre:'.$data['genre'].'</p>';
             echo '<p>duree  :'.$data['duree'].'</p>';
             echo '<a href="film.php?id=' . $data['id'] . '">En savoir +</a>';
+            echo '<a href="filmdelete.php?id=' . $data['id'] . '">Supprimer +</a>';
         }
+
     ?>
 
 </body>

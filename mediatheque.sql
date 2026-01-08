@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 07 jan. 2026 à 09:31
+-- Généré le : jeu. 08 jan. 2026 à 06:44
 -- Version du serveur : 8.4.7
 -- Version de PHP : 8.3.28
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `commentaire` (
   `film_id` int NOT NULL,
   `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `commentaire`
@@ -42,8 +42,10 @@ CREATE TABLE IF NOT EXISTS `commentaire` (
 
 INSERT INTO `commentaire` (`id`, `user_id`, `film_id`, `content`) VALUES
 (1, 26, 1, 'Super Film !'),
+(35, 26, 2, 'Je l\'ai revu'),
 (29, 26, 1, 'ET OPUAIS C GENIAL\r\n'),
 (31, 29, 2, 'Un super film vraiment.     '),
+(34, 26, 2, 'Super film   '),
 (33, 26, 2, 'Spiderfan dit nimp trop nuul  ');
 
 -- --------------------------------------------------------
@@ -55,6 +57,7 @@ INSERT INTO `commentaire` (`id`, `user_id`, `film_id`, `content`) VALUES
 DROP TABLE IF EXISTS `film`;
 CREATE TABLE IF NOT EXISTS `film` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
   `titre` varchar(255) NOT NULL,
   `realisateur` varchar(255) NOT NULL,
   `genre` varchar(255) NOT NULL,
@@ -67,11 +70,11 @@ CREATE TABLE IF NOT EXISTS `film` (
 -- Déchargement des données de la table `film`
 --
 
-INSERT INTO `film` (`id`, `titre`, `realisateur`, `genre`, `duree`, `synopsis`) VALUES
-(1, 'Spider-Man : New Generation', 'Bob Persichetti, Peter Ramsey, Rodney Rothman', 'Animation', '117', 'C spiderman fdp'),
-(2, 'Blade Runner', 'Ridley Scott', 'Science-fiction, néo-noir, action, thriller', '111', ''),
-(3, 'Le Seigneur des anneaux : La Communauté de l\'anneau', 'Peter Jackson', 'Fantasy', '178', ''),
-(4, 'Ça', 'Andrés Muschietti', 'Épouvante-horreur,Thriller', '135', '');
+INSERT INTO `film` (`id`, `user_id`, `titre`, `realisateur`, `genre`, `duree`, `synopsis`) VALUES
+(1, 0, 'Spider-Man : New Generation', 'Bob Persichetti, Peter Ramsey, Rodney Rothman', 'Animation', '117', 'C spiderman fdp'),
+(2, 0, 'Blade Runner', 'Ridley Scott', 'Science-fiction, néo-noir, action, thriller', '111', '       En l\'an 2019, un ex-policier devenu détective privé, Rick Deckard, est rappelé en service pour faire la chasse à des robots d\'apparence humaine appelés \"replicants.\" Deckard doit en éliminer quatre qui se cachent à Los Angeles. La tâche n\'est pas f'),
+(3, 26, 'Le Seigneur des anneaux : La Communauté de l\'anneau', 'Peter Jackson', 'Fantasy', '178', ''),
+(4, 0, 'Ça', 'Andrés Muschietti', 'Épouvante-horreur,Thriller', '135', '                 dadasdwads   ');
 
 -- --------------------------------------------------------
 

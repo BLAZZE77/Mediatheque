@@ -10,26 +10,27 @@
     <title>Document</title>
 </head>
 <body>
-    <?php 
-        if (isset($_GET['logout']) && $_GET['logout'] === 'logout') {
-            unset($_SESSION['user']);
-            echo "Vous êtes maintenant déconnecté";
+    <header>   
+        <?php 
+            if (isset($_GET['logout']) && $_GET['logout'] === 'logout') {
+                unset($_SESSION['user']);
+                echo "Vous êtes maintenant déconnecté";
+            }
+            if (isset($_SESSION['user'])) {
+                echo "<p>Bienvenue, " . htmlspecialchars($_SESSION['user']['prenom']) . " !</p>";
+            ?> 
+            <form action="allfilm.php?action=logout" method="get">
+                <input type="submit" value ="logout" name = "logout">
+            </form>
+        <?php     
+            }else{
+        ?>
+                <a href="login.php">Connexion</a>
+                <a href="register.php">Nouveau membre ? </a>
+        <?php   
         }
-        if (isset($_SESSION['user'])) {
-            echo "<p>Bienvenue, " . htmlspecialchars($_SESSION['user']['prenom']) . " !</p>";
-        ?> 
-        <form action="mediatheque.php?action=logout" method="get">
-            <input type="submit" value ="logout" name = "logout">
-        </form>
-    <?php     
-        }else{
-    ?>
-            <a href="login.php">Connexion</a>
-            <a href="register.php">Nouveau membre ? </a>
-    <?php   
-    }
-    ?>
-
+        ?>
+    </header> 
     <?php
         $filmid = $_GET['id'];
         $readfilm = $bdd -> prepare('SELECT synopsis,titre FROM film WHERE id = ?');
@@ -41,19 +42,36 @@
             echo '<p> synopsis : '. htmlspecialchars($datafilm['synopsis']).'</p>';
         }else {
             echo '<p> Nom du film : ' . htmlspecialchars($datafilm['titre']).'</p>';
-            echo '<p>Pas de synopsis</p>';
-        }
-    ?>
-    <a href="allfilm.php">Retour au films</a>
-    <?php
-            if (isset($_SESSION['user'])){?>
+            echo "<p>Il n'y a pas de synopsis, pourquoi ne pas en ajouter un ? </p>";
+            ?>
+                <form action=""></form>
+                <form action="film.php?id=<?= $filmid ?>"  method="post" >
+                    <p>Ajouter un synopsis : </p>
+                    <textarea name="contentsynopsis" id="" rows="5" cols="33">
+                    </textarea>
+                    <input type="submit" value ="sendsynopsis" name = "sendsynopsis">
+                </form>
+            <?php  
+            if (isset($_POST['sendsynopsis'])) {
+                    $contentsynopsis = $_POST['contentsynopsis'];
+                    $addsynopsis = $bdd->prepare('UPDATE film SET synopsis = ? WHERE id = ?');
+                    $addsynopsis->execute([$contentsynopsis, $filmid]);
+           
+                
+        }}
+             ?>    
+            <a href="allfilm.php">Retour au films</a>
+        
+            <?php 
+            if (isset($_SESSION['user'])){
+            ?>
                 <form action="film.php?id=<?= $filmid ?>"  method="post" >
                     <p>Ajouter un commentaire : </p>
                     <textarea name="content" id="" rows="5" cols="33">
                     </textarea>
                     <input type="submit" value ="sendcomment" name = "sendcomment">
                 </form>
-            <?php
+                 <?php
                 if (isset($_POST['sendcomment'])) {
                     $content = $_POST['content'];
                     $user_id = $_SESSION['user']['id']; 
@@ -62,10 +80,8 @@
                         VALUES (?, ?, ?)
                     ');
                      $addcomment->execute([$user_id, $filmid, $content]);
-}
+                }
             }
-
-
         $readcomment = $bdd -> prepare('SELECT c.content, u.surname, u.prenom
                                                 FROM commentaire c
                                                 JOIN `user` u ON c.user_id = u.id
@@ -77,11 +93,5 @@
             echo '<p>'.$datacomment['content'].'</p>';
         }
        ?>
-
-
-    
-
-
-    
 </body>
 </html>
